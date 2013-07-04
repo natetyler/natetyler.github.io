@@ -1,48 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Natetyler.github.io : " />
+    <meta charset="utf-8">
+    <title>Random Quotes</title>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/app.css" rel="stylesheet">
+    <script src="javascripts/jquery-2.0.2.min.js"></script>
+    <script src="javascripts/wikiquote-api.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+        $(".search-form").submit(function() {
+          $quoteDiv = $(this).parent().find(".quotes");
+          var $input = $(this).find("input:text");
+          $input.val(WikiquoteApi.capitalizeString($input.val()));
+          WikiquoteApi.getRandomQuote($input.val(), 
+            function(quote) {
+              $quoteDiv.html($("<p>" + quote + "</p>"));
+            }, 
+            function(msg){
+              alert(msg);
+            }
+          );
 
-    <title>Natetyler.github.io</title>
+          return false;
+        });
+      });
+    </script>
   </head>
 
   <body>
+    <div class="container">
+      <div class="header">
+        <h1>RANDOM QUOTE</h1>
+        <h4>Get a random quote using the wikiquote.org api</h3>
+        <a id="forkme_banner" href="https://github.com/natetyler">View on GitHub</a>
+      </div>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/natetyler">View on GitHub</a>
+      <div>
+        <form class="search-form" method="post">
+          <input id="search-box" class="search-box" type="text" />
+          <input type="submit" value="Search" class="button btn" />
+        </form>
+        <div class="quotes"></div>
+      </div>
 
-          <h1 id="project_title">Natetyler.github.io</h1>
-          <h2 id="project_tagline"></h2>
-
-        </header>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="random-quote" class="anchor" href="#random-quote"><span class="octicon octicon-link"></span></a>Random quote</h1>
-
-<h2>
-<a name="get-a-random-quote-from-wikiquotes" class="anchor" href="#get-a-random-quote-from-wikiquotes"><span class="octicon octicon-link"></span></a>Get a random quote from wikiquotes</h2>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
