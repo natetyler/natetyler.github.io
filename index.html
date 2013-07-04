@@ -10,14 +10,18 @@
     <script type="text/javascript">
       $(document).ready(function(){
 
+        function quoteReady(newQuote) {
+          $quoteDiv.html($('<p style="display:none;">' + newQuote + '</p>'));
+          $(".quotes p:hidden").fadeIn(400);
+        }
+
         $(".search-form").submit(function() {
           $quoteDiv = $(this).parent().find(".quotes");
+          $quoteDiv.find("p").fadeOut(400);
           var $input = $(this).find("input:text");
           $input.val(WikiquoteApi.capitalizeString($input.val()));
           WikiquoteApi.getRandomQuote($input.val(), 
-            function(quote) {
-              $quoteDiv.html($("<p>" + quote + "</p>"));
-            }, 
+            quoteReady, 
             function(msg){
               alert(msg);
             }
