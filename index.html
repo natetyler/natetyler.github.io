@@ -2,53 +2,48 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Random Quotes</title>
+    <title>Quote Mashup</title>
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="stylesheets/app.css" rel="stylesheet">
     <script src="javascripts/jquery-2.0.2.min.js"></script>
     <script src="javascripts/wikiquote-api.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-
-        function quoteReady(newQuote) {
-          $quoteDiv.html($('<p style="display:none;">' + newQuote + '</p>'));
-          $(".quotes p:hidden").fadeIn(400);
-        }
-
-        $(".search-form").submit(function() {
-          $quoteDiv = $(this).parent().find(".quotes");
-          $quoteDiv.find("p").fadeOut(400);
-          var $input = $(this).find("input:text");
-          $input.val(WikiquoteApi.capitalizeString($input.val()));
-          WikiquoteApi.getRandomQuote($input.val(), 
-            quoteReady, 
-            function(msg){
-              alert(msg);
-            }
-          );
-
-          return false;
-        });
-      });
+    <script src="javascripts/app.js">
     </script>
   </head>
 
   <body>
-    <div class="container">
-      <div class="header">
-        <h1>RANDOM QUOTE</h1>
-        <h4>Get a random quote using the wikiquote.org api</h3>
+    <div class="container main-bg">
+      <div class="header text-center">
+        <h1>Quote Mashup</h1>
+        <h4>Create a quote mashup by searching for random quotes from two famous people.<br />
+        Don't like your mashup? Search again!</h4>
+        <a class="btn btn-primary">Show me</a>
         <a id="forkme_banner" href="https://github.com/natetyler">View on GitHub</a>
       </div>
 
-      <div>
-        <form class="search-form" method="post">
-          <input id="search-box" class="search-box" type="text" />
-          <input type="submit" value="Search" class="button btn" />
-        </form>
-        <div class="quotes"></div>
+      <div class="row">
+        <div class="span5">
+          <form id="form1" class="search-form" method="post">
+            <input id="search-box1" class="search-box" type="text" />
+            <input type="submit" value="Search" class="button btn" />
+          </form>
+          <div class="quotes"></div>
+        </div>
+
+        <div class="span5">
+          <form id="form2" class="search-form" method="post">
+            <input id="search-box2" class="search-box" type="text" />
+            <input type="submit" value="Search" class="button btn" />
+          </form>
+          <div class="quotes"></div>
+        </div>
       </div>
 
+      <div id="mashup">
+      </div>
+    </div>
+    <div class="container footer">
+      <p>This page uses <a href="https://github.com/natetyler/wikiquotes-api">my javascript module</a> for searching using the wikiquote.org api.</p>
     </div>
   </body>
 </html>
