@@ -1,4 +1,4 @@
 natetyler.github.io
 ===================
 
-Javascript module for parsing wikiquotes
+[View on github pages](http://natetyler.github.io)
