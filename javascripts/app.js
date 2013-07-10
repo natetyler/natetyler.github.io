@@ -48,10 +48,11 @@ $(document).ready(function(){
   */
 
   function quoteReady(newQuote, quoteDiv, index) {
-    if(newQuote.length > 0) {
-      quotes['quote' + index] = newQuote;
+    if(newQuote.quote.length > 0) {
+      quotes['quote' + index] = newQuote.quote;
       quoteDiv.html($('<p style="display:none;">Quote loaded</p>'));
-      quoteDiv.find("p:hidden").fadeIn(400);  
+      quoteDiv.find("p:hidden").fadeIn(400);
+      $('#search-box' + index).val(newQuote.titles);
     }
 
     if('quote1' in quotes && 'quote2' in quotes) {
@@ -71,20 +72,28 @@ $(document).ready(function(){
 
     // Get input field and capitalize the input
     var $input = $(this).find("input:text");
-    $input.val(WikiquoteApi.capitalizeString($input.val()));
 
     // Find index of this input (1 or 2)
     var idString = $input.attr('id');
     var index = idString.charAt(idString.length - 1);
 
-    // Get quote
-    WikiquoteApi.getRandomQuote($input.val(), 
-      function(newQuote) { quoteReady(newQuote, $quoteDiv, index); }, 
-      function(msg){
+    // Get first search result and use as titles
+    WikiquoteApi.openSearch($input.val(),
+      function(results) {
+        $input.val(results[0]);
+        // Get quote
+        WikiquoteApi.getRandomQuote($input.val(), 
+          function(newQuote) { quoteReady(newQuote, $quoteDiv, index); }, 
+          function(msg){
+            alert(msg);
+          }
+        );
+      },
+      function(msg) {
         alert(msg);
       }
     );
-
+    
     return false;
   });
 
