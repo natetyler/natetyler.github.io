@@ -9,7 +9,7 @@ var Mashup = (function() {
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       if(arr[i].trim().length > 0) {
-        newArr[i] = arr[i].trim();
+        newArr.push(arr[i].trim());
       }
     }
 
