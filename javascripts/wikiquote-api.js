@@ -2,7 +2,7 @@ var WikiquoteApi = (function() {
 
   var wqa = {};
 
-  var API_URL = "http://en.wikiquote.org/w/api.php";
+  var API_URL = "https://en.wikiquote.org/w/api.php";
 
   /**
    * Query based on "titles" parameter and return page id.
@@ -141,7 +141,41 @@ var WikiquoteApi = (function() {
       }
     });
   };
+  
+  /**
+   * Get Wikipedia page for specific section
+   * Usually section 0 includes personal Wikipedia page link
+   */
+  wqa.getWikiForSection = function(title, pageId, sec, success, error) {
+    $.ajax({
+      url: API_URL,
+      dataType: "jsonp",
+      data: {
+        format: "json",
+        action: "parse",
+        noimages: "",
+        pageid: pageId,
+        section: sec
+      },
 
+      success: function(result, status){
+		
+        var wikilink;
+		console.log('what is iwlink:'+result.parse.iwlinks);
+		var iwl = result.parse.iwlinks;
+		for(var i=0; i<(iwl).length; i++){
+			var obj = iwl[i];
+			if((obj["*"]).indexOf(title) != -1){
+				 wikilink = obj.url;
+			}
+		}
+        success(wikilink);
+      },
+      error: function(xhr, result, status){
+        error("Error getting quotes");
+      }
+    });
+  };
   /**
    * Search using opensearch api.  Returns an array of search results.
    */
